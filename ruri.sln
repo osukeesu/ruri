@@ -1,22 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ruri", "ruri\ruri.vcxproj", "{4004670E-EF00-430A-BEC8-A830628ED1E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4004670E-EF00-430A-BEC8-A830628ED1E3}.Debug|ARM.ActiveCfg = Debug|ARM
+		{4004670E-EF00-430A-BEC8-A830628ED1E3}.Debug|ARM.Build.0 = Debug|ARM
 		{4004670E-EF00-430A-BEC8-A830628ED1E3}.Debug|x64.ActiveCfg = Debug|x64
 		{4004670E-EF00-430A-BEC8-A830628ED1E3}.Debug|x64.Build.0 = Debug|x64
 		{4004670E-EF00-430A-BEC8-A830628ED1E3}.Debug|x86.ActiveCfg = Debug|Win32
 		{4004670E-EF00-430A-BEC8-A830628ED1E3}.Debug|x86.Build.0 = Debug|Win32
+		{4004670E-EF00-430A-BEC8-A830628ED1E3}.Release|ARM.ActiveCfg = Release|ARM
+		{4004670E-EF00-430A-BEC8-A830628ED1E3}.Release|ARM.Build.0 = Release|ARM
 		{4004670E-EF00-430A-BEC8-A830628ED1E3}.Release|x64.ActiveCfg = Release|x64
 		{4004670E-EF00-430A-BEC8-A830628ED1E3}.Release|x64.Build.0 = Release|x64
 		{4004670E-EF00-430A-BEC8-A830628ED1E3}.Release|x86.ActiveCfg = Release|Win32
@@ -24,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A1C24430-18BD-46D0-B9B2-225128C91ABE}
 	EndGlobalSection
 EndGlobal

@@ -183,12 +183,12 @@ struct _Channel{
 
 };
 
-std::array ChannelTable = { _Channel("#General","General Chat.", IRC_Public,IRC_Public,1),
-							_Channel("#announce", "Public announcements.", IRC_Public, IRC_Admin,1),
-							_Channel("#supporter", "Supporter only chat.", IRC_Supporter, IRC_Supporter,1),
-							_Channel("#admin", "Command dumpster.", IRC_Admin, IRC_Admin,1),
-							_Channel("#devlog", "Log all the things.", IRC_Dev, IRC_Dev, 1),
-							_Channel("#lobby", "Chat with others browsing for a lobby.", IRC_Public, IRC_Public,0,1)
+std::array ChannelTable = { _Channel("#general","일반 채팅", IRC_Public,IRC_Public,1),
+							_Channel("#announce", "모든 유저들이 확인할 수 있는 공지사항입니다.", IRC_Public, IRC_Admin,1),
+							_Channel("#supporter", "서포터들만 볼 수 있는 채팅입니다.", IRC_Supporter, IRC_Supporter,1),
+							_Channel("#admin", "명령어 도배장...", IRC_Admin, IRC_Admin,1),
+							_Channel("#devlog", "모든 로그를 저장한다. 흐어엇", IRC_Dev, IRC_Dev, 1),
+							_Channel("#lobby", "멀티를 찾고 싶은 사람들과 채팅하세요!", IRC_Public, IRC_Public,0,1)
 						};
 VEC(byte) PublicChannelCache;
 

@@ -365,7 +365,7 @@ std::string ProcessCommandMultiPlayer(_User* u, const std::string_view Command, 
 			_UserRef Target(GetUserFromNameSafe(USERNAMESAFE(std::string(Split[2]))), 0);
 
 			if (!Target)
-				return "Coult not find user";
+				return "유저를 찾을 수 없습니다.";
 
 			m->Lock.lock();
 
@@ -389,7 +389,7 @@ std::string ProcessCommandMultiPlayer(_User* u, const std::string_view Command, 
 			}
 
 			m->Lock.unlock();
-			return Target->Username + " forced into match";
+			return Target->Username + " 님이 방으로 소환되었습니다.";
 		}
 
 		if (Split[1] == "host"){
@@ -400,7 +400,7 @@ std::string ProcessCommandMultiPlayer(_User* u, const std::string_view Command, 
 			
 			if (m->HostID == u->UserID || m->inProgress) {
 				m->Lock.unlock();
-				return "You are already host.";
+				return "당신은 이미 방장입니다.";
 			}
 
 			m->HostID = u->UserID;
@@ -412,7 +412,7 @@ std::string ProcessCommandMultiPlayer(_User* u, const std::string_view Command, 
 
 			m->Lock.unlock();
 			PrivateRes = 0;
-			return u->Username + " has forced host upon them self.";
+			return u->Username + " 님이 방장을 획득하였습니다!";
 		}
 
 		if (Split[1] == "start") {
@@ -420,28 +420,28 @@ std::string ProcessCommandMultiPlayer(_User* u, const std::string_view Command, 
 
 			if (m->HostID != u->UserID) {
 				m->Lock.unlock();
-				return "Only the host can force start the match.";
+				return "방장만 강제로 게임을 시작할 수 있습니다!";
 			}
 
 			if (m->Settings.BeatmapID == -1){
 				m->Lock.unlock();
-				return "Starting a match without a map being selected is hard.";
+				return "맵을 선택중입니다. 맵을 선택 후 다시 입력해주세요.";
 			}
 
 			m->Lock.unlock();
 
 			Event_client_matchStart(u);
 			PrivateRes = 0;
-			return "Host has forced the match to start.";
+			return "방장이 강제로 게임을 시작하였습니다.";
 		}
 
 		if (Split[1] == "id")
-			return "The ID of this match is " + std::to_string(m->MatchId) + " with the host being " + GetUsernameFromCache(m->HostID);
+			return "이 방의 ID는 [ " + std::to_string(m->MatchId) + " ] 이며, 방장은 " + GetUsernameFromCache(m->HostID) + " 입니다.";
 		
 		return "";
 	}
 
 	return ProcessCommand(u, Command, PrivateRes);//Moving is not worth it.
 
-INSUFFICIENTPRIV:return "You are not allowed to use that command.";
+INSUFFICIENTPRIV:return "명령어를 사용할 권한이 없습니다 :(";
 }

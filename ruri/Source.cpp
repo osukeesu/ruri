@@ -1,5 +1,5 @@
 #define USERID_START 1000
-#define M_BOT_NAME "ruri"
+#define M_BOT_NAME "Keesu"
 #define BOT_LOCATION 0
 
 enum Privileges{
@@ -2847,6 +2847,15 @@ void Event_client_sendPublicMessage(_User *tP, const byte* const Packet, const D
 		if (!(tP->privileges & Privileges::UserPublic))
 			notVisible = 1;
 
+		// -----------------------------------------------------------------------------------------------------------------
+	        if (tP->privileges & Privileges::UserPublic && !notVisible) {
+        	        VEC(byte) Pack;
+                	PacketBuilder::Build<Packet::Server::sendMessage, 's', 'v', 'v', 'i'>(Pack,&tP->Username,&Message,&Target,tP->UserID);
+
+	                c->SendPublicMessage(tP, Pack);
+        	}
+		// -----------------------------------------------------------------------------------------------------------------
+
 		if (Res.size()){
 			if (notVisible)
 				PacketBuilder::Build<Packet::Server::sendMessage, 'm', '-', 's', 'v', 'i'>(tP->QueBytes, &tP->qLock, STACK(M_BOT_NAME), &Res, &Target, USERID_START - 1);
@@ -2863,6 +2872,7 @@ void Event_client_sendPublicMessage(_User *tP, const byte* const Packet, const D
 
 		c->SendPublicMessage(tP, Pack);
 	}
+
 }
 
 void Event_client_startSpectating(_User *tP, const byte* const Packet, const DWORD Size){
@@ -3186,7 +3196,7 @@ void Event_client_matchChangeSettings(_User *tP, const byte* const Packet, const
 
 	VEC(byte) Update = bPacket::bMatch(m);
 	if (MapUpdated){
-		std::string Mes = "(Bloodcat)[https://bloodcat.com/osu?q=" + std::to_string(m->Settings.BeatmapID) + "]";
+		std::string Mes = "(클릭시 Bloodcat에서 다운로드가 가능합니다.)[https://bloodcat.com/osu?q=" + std::to_string(m->Settings.BeatmapID) + "]";
 		PacketBuilder::Build<Packet::Server::sendMessage, '-', 's', '-', 'i'>(Update, STACK(M_BOT_NAME), &Mes, STACK("#multiplayer"), USERID_START - 1);
 	}
 
@@ -3604,7 +3614,7 @@ void Event_client_invite(_User *tP, const byte* const Packet, const DWORD Size){
 	if (TID < USERID_START){
 
 		constexpr auto b = PopulateHeader(Concate(PacketHeader(Packet::Server::sendMessage),
-			String(M_BOT_NAME),String("Why would a bot want to join your match? You dirty shaved monkey."),String("#multiplayer"),Number<int>(USERID_START - 1)));
+			String(M_BOT_NAME),String("엄... 나에게 방을 초대해도 안받아준다 ㅇ.ㅇ"),String("#multiplayer"),Number<int>(USERID_START - 1)));
 
 		return tP->addQueArray(b);
 	}
@@ -3612,12 +3622,12 @@ void Event_client_invite(_User *tP, const byte* const Packet, const DWORD Size){
 
 	if (!Target){
 		constexpr auto b = PopulateHeader(Concate(PacketHeader(Packet::Server::sendMessage),
-			String(M_BOT_NAME), String("Could not find player."), String("#multiplayer"), Number<int>(USERID_START - 1)));
+			String(M_BOT_NAME), String("해당 플레이어를 찾을 수 없습니다."), String("#multiplayer"), Number<int>(USERID_START - 1)));
 
 		return tP->addQueArray(b);
 	}
 	{
-		const std::string Mes = "Invited " + Target->Username + " to your match.";
+		const std::string Mes = Target->Username + "님을 당신의 방으로 초대하였습니다.";
 
 		PacketBuilder::Build<Packet::Server::sendMessage, 'm', '-', 's', '-', 'i'>(tP->QueBytes, &tP->qLock, STACK(M_BOT_NAME), &Mes, STACK("#multiplayer"), USERID_START - 1);
 	}
@@ -3625,7 +3635,7 @@ void Event_client_invite(_User *tP, const byte* const Packet, const DWORD Size){
 		return;
 
 	{
-		const std::string Mes = "I have invited you to the multiplayer lobby \"[osump://" + std::to_string(m->MatchId) + "/" + m->Settings.Password + " " + m->Settings.Name + "]\".";
+		const std::string Mes = "당신을 멀티플레이 방으로 초대합니다. \"[osump://" + std::to_string(m->MatchId) + "/" + m->Settings.Password + " " + m->Settings.Name + "]\".";
 
 		//Users could fuck with the client [] url construction but its not dangerous in anyway so who cares.
 
@@ -4233,12 +4243,12 @@ void HandleBanchoPacket(_Con s, const _HttpRes &&res,const uint64_t choToken) {
 			u->qLock.lock();
 
 			if (!(Priv & Privileges::UserPublic)){
-				constexpr auto b = PacketBuilder::CT::String_Packet(Packet::Server::notification, "Your account is currently restricted.");
+				constexpr auto b = PacketBuilder::CT::String_Packet(Packet::Server::notification, "당신의 계정은 현재 제한 상태입니다.");
 				u->addQueArray<0>(b);
 			}
 			if (Outdated && (Priv & Privileges::AdminDev))
 				PacketBuilder::Build<Packet::Server::sendMessage, '-', '-', 's', 'i'>(u->QueBytes, STACK(M_BOT_NAME),
-					STACK("This instance of ruri is out of date.\nConsider updating https://github.com/rumoi/ruri"), &u->Username, USERID_START - 1);
+					STACK("현재 ruri는 오래되었습니다. https://github.com/ilsubyeega/ruri 에서 다시 컴파일을 하십시오."), &u->Username, USERID_START - 1);
 
 			{
 				using namespace PacketBuilder::CT;
@@ -4249,7 +4259,8 @@ void HandleBanchoPacket(_Con s, const _HttpRes &&res,const uint64_t choToken) {
 				constexpr auto constPacket =
 					Concate(
 						Number_Packet<int>(Packet::Server::protocolVersion, CHO_VERSION),
-						String_Packet(Packet::Server::notification, "Welcome to ruri.\nBuild: " __DATE__ " " __TIME__),
+						String_Packet(Packet::Server::notification, "Keesu에 오신 것을 환영합니다.\n빌드된 날짜: " __DATE__ " " __TIME__),
+						String_Packet(Packet::Server::notification, "현재 서비스는 베타입니다.\n아래 디스코드 서버에서 자세한 내용을 확인해주세요.\nhttps://discord.gg/t56GwWQ"),
 						Number_Packet<int>(Packet::Server::channelInfoEnd, 0),
 						Number_Packet<int>(Packet::Server::supporterGMT, UserType::Supporter),
 						String_Packet(Packet::Server::channelKicked, "#osu"),

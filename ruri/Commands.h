@@ -686,7 +686,7 @@ const std::string ProcessCommand(_User* u,const std::string_view Command, DWORD 
 
 		case _WeakStringToInt_("!roll"):
 			PrivateRes = 0;
-				return u->Username + " rolled " + std::to_string(BR::GetRand64(0, Split.size() > 1 ? StringToNum(uint64_t, Split[1]) : 100));
+				return u->Username + "님이 " + std::to_string(BR::GetRand64(0, Split.size() > 1 ? StringToNum(uint64_t, Split[1]) : 100)) + "을 굴렸습니다.";
 		case _WeakStringToInt_("!priv"):
 			return std::to_string(Priv);
 		case _WeakStringToInt_("!reconnect"):
@@ -709,7 +709,7 @@ const std::string ProcessCommand(_User* u,const std::string_view Command, DWORD 
 
 	}
 	if (!(u->privileges & Privileges::AdminManageUsers))
-		return "That is not a command.";
+		return "없는 명령어입니다.";
 
 	//Admin Commands
 	{
@@ -775,7 +775,7 @@ const std::string ProcessCommand(_User* u,const std::string_view Command, DWORD 
 	}
 
 	if (!(u->privileges & Privileges::AdminDev))
-		return "That is not a command.";
+		return "없는 명령어입니다.";
 
 	//Dev Commands
 	{
@@ -920,5 +920,5 @@ const std::string ProcessCommand(_User* u,const std::string_view Command, DWORD 
 		}
 	}
 
-	return "That is not a command.";
+	return "없는 명령어입니다.";
 }

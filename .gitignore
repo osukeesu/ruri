@@ -1,16 +1,18 @@
 #Remove Debugging Thing
 config.ini
-
-#Lets Remvoe VSCODE thing
-ruri/.vscode/
-ruri/Debug/
-ruri/x64/
+#Remove required just thing
+build.sh
+ruris
 *.so
 *.a
 *.so*
 *.deb
+#Lets Remvoe VSCODE thing
+ruri/.vscode/
+ruri/Debug/
+ruri/x64/
+
 Data/
-ruris
 x64/
 ARM/
 SQL/

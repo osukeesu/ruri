@@ -183,7 +183,7 @@ struct _Channel{
 
 };
 
-std::array ChannelTable = { _Channel("#general","일반 채팅", IRC_Public,IRC_Public,1),
+std::array ChannelTable = { _Channel("#keesu","일반 채팅", IRC_Public,IRC_Public,1),
 							_Channel("#announce", "모든 유저들이 확인할 수 있는 공지사항입니다.", IRC_Public, IRC_Admin,1),
 							_Channel("#supporter", "서포터들만 볼 수 있는 채팅입니다.", IRC_Supporter, IRC_Supporter,1),
 							_Channel("#admin", "명령어 도배장...", IRC_Admin, IRC_Admin,1),

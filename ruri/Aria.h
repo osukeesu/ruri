@@ -414,13 +414,13 @@ struct _BeatmapData{
 
 			const std::string TableName = (Mode >= 4) ? "scores_relax" : "scores"
 				,OrderBy = (Mode >= 4) ? "pp" : "score"
-				,AddRealx = (Mode >= 4) ? "" : "UNION ALL SELECT id,score,max_combo,50_count,100_count,300_count,misses_count,katus_count,gekis_count,full_combo,mods,userid,pp,time FROM scores_relax WHERE completed = 3 AND beatmap_md5 = '" + Hash + "' AND play_mode = " + std::to_string(Mode % 4) + " AND pp > 0 ORDER BY score DESC;";
+				,AddRealx = (Mode >= 4) ? "" : "UNION ALL (SELECT id,score,max_combo,50_count,100_count,300_count,misses_count,katus_count,gekis_count,full_combo,mods,userid,pp,time FROM scores_relax WHERE completed = 3 AND beatmap_md5 = '" + Hash + "' AND play_mode = " + std::to_string(Mode % 4) + " AND pp > 0 ORDER BY score DESC)";
 
 			_LeaderBoardCache* L = new _LeaderBoardCache();
 
-			auto* res = SQL->ExecuteQuery("SELECT id,score,max_combo,50_count,100_count,300_count,misses_count,katus_count,gekis_count,full_combo,mods,userid,pp,time FROM " + TableName + " WHERE completed = 3 AND beatmap_md5 = '" + Hash + "' AND play_mode = " + std::to_string(Mode % 4) + " AND pp > 0 ORDER BY " + OrderBy + " DESC");
+			auto* res = SQL->ExecuteQuery("(SELECT id,score,max_combo,50_count,100_count,300_count,misses_count,katus_count,gekis_count,full_combo,mods,userid,pp,time FROM " + TableName + " WHERE completed = 3 AND beatmap_md5 = '" + Hash + "' AND play_mode = " + std::to_string(Mode % 4) + " AND pp > 0 ORDER BY " + OrderBy + " DESC) " + AddRealx);
 			const DWORD GM = al_min(GM_MAX, Mode);
-
+			
 			L->ScoreCache.reserve(64);
 
 			while (res && res->next())

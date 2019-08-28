@@ -103,7 +103,7 @@ struct _SQLCon {
 			ret = s->executeQuery(_M(Query));
 
 		}catch (sql::SQLException &e) {
-			printf("SQLERROR:%i\n", e.getErrorCode());
+			printf("SQLERROR:%i \n%s\n", e.getErrorCode(), Query.c_str());
 		}
 		if(s)delete s;
 
